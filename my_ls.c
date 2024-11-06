@@ -23,6 +23,7 @@ static const flag_t flag_arr[] = {
     {'d', 4},
     {'r', 5},
     {'t', 6},
+    {'-', 7},
     {'?', 84}
 };
 static const char *error = "ls : option invalide\n";
