@@ -23,6 +23,7 @@ $(NAME): $(OBJ)
 clean:
 	rm -f *.o
 	rm -f lib/my/*.o
+	rm -f src/utils/*.o
 
 fclean: clean
 

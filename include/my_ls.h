@@ -10,6 +10,7 @@
 
 typedef struct flag {
     char flag;
+    int id;
 } flag_t;
 
 #endif
