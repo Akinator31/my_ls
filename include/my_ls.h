@@ -9,7 +9,11 @@
     #define MY_LS_H
 
 typedef struct flag {
-    char flag;
+    char flag_char;
+    int id;
 } flag_t;
+
+int is_a_flag(char actual_char, const flag_t *arr);
+int my_arrlen(const flag_t *arr);
 
 #endif
