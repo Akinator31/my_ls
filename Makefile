@@ -6,14 +6,15 @@
 ##
 
 SRC = 	my_ls.c \
-		src/utils/is_a_flag.c \
+		src/utils/my_is_a_flag.c \
+		src/utils/my_arrlen.c \
 
 OBJ = $(SRC:.c=.o)
 
 NAME = my_ls
 
 LIBDIR = 	lib/libmy.a \
-			lib/libmy_printf.a
+			lib/libmy_printf.a \
 
 all: $(NAME)
 
