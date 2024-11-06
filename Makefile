@@ -12,18 +12,22 @@ OBJ = $(SRC:.c=.o)
 
 NAME = my_ls
 
-LIBDIR = 	lib/libmy.a \
-			lib/libmy_printf.a
+LIBFILE =	lib/my_lib/libmy.a \
+			lib/my_printf/libmy_printf.a
 
 all: $(NAME)
 
 $(NAME): $(OBJ)
-	gcc -o $(NAME) $(OBJ) $(LIBDIR)
+	make -C lib/my_lib
+	make -C lib/my_printf
+	gcc -o $(NAME) $(OBJ) $(LIBFILE)
 
 clean:
 	rm -f *.o
 	rm -f lib/my/*.o
 	rm -f src/utils/*.o
+	make clean -C lib/my_lib
+	make clean -C lib/my_printf
 
 fclean: clean
 
