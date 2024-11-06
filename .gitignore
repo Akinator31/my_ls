@@ -1,2 +1,5 @@
 .vscode
 my_ls
+lib/my_printf/coverage
+lib/my_printf/libmy_printf.a
+lib/my_lib/libmy.a
