@@ -6,7 +6,8 @@
 ##
 
 SRC = 	my_ls.c \
-		src/utils/is_a_flag.c \
+		src/utils/my_is_a_flag.c \
+		src/utils/my_arrlen.c \
 
 OBJ = $(SRC:.c=.o)
 
