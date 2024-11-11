@@ -58,4 +58,5 @@ int main(int ac, char **av)
         write(2, error, my_strlen(error));
         return 84;
     }
+    load_dir();
 }

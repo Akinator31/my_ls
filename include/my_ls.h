@@ -13,7 +13,13 @@ typedef struct flag {
     int id;
 } flag_t;
 
+typedef struct dir_s {
+    char *name;
+    struct dirent *dir_info;
+} dir_t;
+
 int is_a_flag(char actual_char, const flag_t *arr);
 int my_arrlen(const flag_t *arr);
+int load_dir(void);
 
 #endif
