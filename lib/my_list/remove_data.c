@@ -39,6 +39,8 @@ linked_list_t *pop_front_list(linked_list_t *lt)
     if (is_empty_list(lt)) {
         return lt;
     }
+    free(lt->data->d_name);
+    free(lt->data);
     free(lt);
     lt = NULL;
     return temp;
