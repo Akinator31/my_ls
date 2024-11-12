@@ -10,13 +10,27 @@
 #include "../../include/my_list.h"
 #include "../../include/my_printf.h"
 
-void print_list(linked_list_t *lt, int is_flag_a)
+void print_list_for_one_dir(linked_list_t *lt, int is_flag_a, char **av)
 {
     if (is_empty_list(lt))
         return;
     while (!is_empty_list(lt->next)) {
         if (lt->data->d_name[0] != '.')
             my_printf("%s  ", lt->data->d_name);
+        if ((lt->data->d_name[0] == '.') && (is_flag_a > 0))
+            my_printf("%s  ", lt->data->d_name);
+        lt = lt->next;
+    }
+    my_printf("%s\n", lt->data->d_name);
+}
+
+void print_list_for_multiple_dir(linked_list_t *lt, int is_flag_a, char **av)
+{
+    if (is_empty_list(lt))
+        return;
+    while (!is_empty_list(lt->next)) {
+        if (lt->data->d_name[0] != '.')
+            my_printf("%s:\n%s", lt->data->d_name);
         if ((lt->data->d_name[0] == '.') && (is_flag_a > 0))
             my_printf("%s  ", lt->data->d_name);
         lt = lt->next;

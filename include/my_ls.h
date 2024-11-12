@@ -20,6 +20,6 @@ typedef struct dir_s {
 
 int is_a_flag(char actual_char, const flag_t *arr);
 int my_arrlen(const flag_t *arr);
-int load_dir(char *filepath, int *flags);
+int load_dir(char *filepath, int *flags, char **av);
 
 #endif

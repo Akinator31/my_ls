@@ -27,6 +27,7 @@ linked_list_t *pop_back_list(linked_list_t *lt);
 linked_list_t *pop_front_list(linked_list_t *lt);
 linked_list_t *clear_list(linked_list_t *lt);
 linked_list_t *sort_list(linked_list_t *lt);
-void print_list(linked_list_t *lt, int is_flag_a);
+void print_list_for_one_dir(linked_list_t *lt, int is_flag_a, char **av);
+void print_list_for_multiple_dir(linked_list_t *lt, int is_flag_a, char **av);
 
 #endif

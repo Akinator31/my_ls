@@ -28,6 +28,17 @@ static const flag_t flag_arr[] = {
 };
 static const char *error = "ls : option invalide\n";
 
+int fetch_dirs_and_files(int ac, char **av)
+{
+    int result = 0;
+
+    for (int i = 0; i < ac; i++) {
+        if (av[i][0] != '-')
+            result++;
+    }
+    return result;
+}
+
 int flag_finder(int *flags, char **av, int index)
 {
     int is_a_flag_val = 0;
@@ -45,9 +56,15 @@ int flag_finder(int *flags, char **av, int index)
 
 int compute_args(int ac, char **av, int *flags)
 {
+    int multiple_files = 0;
+
+    if (fetch_dirs_and_files(ac, av) > 1)
+        multiple_files = 1;
     for (int i = 1; i < ac; i++) {
-        if (av[i][0] != '-')
-            load_dir(av[i], flags);
+        if ((av[i][0] != '-') && (multiple_files == 0))
+            load_dir(av[i], flags, av);
+        if ((av[i][0] != '-') && (multiple_files == 1))
+            load_multiple_dir(av[i], flags, av);
     }
 }
 
@@ -67,7 +84,7 @@ int main(int ac, char **av)
         return 84;
     }
     if (ac < 2) {
-        load_dir(".", flags);
+        load_dir(".", flags, av);
         return 0;
     }
     compute_args(ac, av, flags);
