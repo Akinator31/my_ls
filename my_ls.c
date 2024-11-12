@@ -43,13 +43,21 @@ int flag_finder(int *flags, char **av, int index)
     return 1;
 }
 
+int compute_args(int ac, char **av, int *flags)
+{
+    for (int i = 1; i < ac; i++) {
+        if (av[i][0] != '-')
+            load_dir(av[i], flags);
+    }
+}
+
 int main(int ac, char **av)
 {
     int i = 1;
     int is_undefined_flag = 1;
     int flags[sizeof(flag_arr) / sizeof(flag_t)] = {0};
 
-    for (i; (i < ac) && (av[i][0] == '-'); i++) {
+    for (i; i < ac; i++) {
         if (av[i][0] == '-') {
             is_undefined_flag = flag_finder(flags, av, i);
         }
@@ -58,5 +66,9 @@ int main(int ac, char **av)
         write(2, error, my_strlen(error));
         return 84;
     }
-    load_dir();
+    if (ac < 2) {
+        load_dir(".", flags);
+        return 0;
+    }
+    compute_args(ac, av, flags);
 }

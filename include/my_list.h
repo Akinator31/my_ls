@@ -9,8 +9,12 @@
     #define MYLIST_H
     #include <dirent.h>
 
+typedef struct my_info {
+    char *d_name;
+} my_info_t;
+
 typedef struct linked_list {
-    struct dirent *data;
+    my_info_t *data;
     struct linked_list *next;
 } linked_list_t;
 
@@ -23,6 +27,6 @@ linked_list_t *pop_back_list(linked_list_t *lt);
 linked_list_t *pop_front_list(linked_list_t *lt);
 linked_list_t *clear_list(linked_list_t *lt);
 linked_list_t *sort_list(linked_list_t *lt);
-void print_list(linked_list_t *lt);
+void print_list(linked_list_t *lt, int is_flag_a);
 
 #endif

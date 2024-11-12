@@ -6,7 +6,7 @@
 ##
 
 SRC = 	my_ls.c \
-		src/flags/display_dir.c \
+		src/flags/load_dir.c \
 		src/utils/my_is_a_flag.c \
 		src/utils/my_arrlen.c \
 

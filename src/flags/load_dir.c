@@ -19,14 +19,14 @@
 #include "../../include/my_ls.h"
 #include "../../include/my_list.h"
 
-int load_dir(void)
+int load_dir(char *filepath, int *flags)
 {
     DIR *current;
     struct dirent *dir_info;
     dir_t *dir_arr;
     linked_list_t *dir_list = new_list();
 
-    current = opendir(".");
+    current = opendir(filepath);
     if (current == NULL) {
         perror("Error when opening dir");
         return 84;
@@ -37,7 +37,7 @@ int load_dir(void)
         dir_info = readdir(current);
     }
     dir_list = sort_list(dir_list);
-    print_list(dir_list);
+    print_list(dir_list, flags[0]);
     dir_list = clear_list(dir_list);
     closedir(current);
 }

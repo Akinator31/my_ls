@@ -10,12 +10,14 @@
 #include "../../include/my_list.h"
 #include "../../include/my_printf.h"
 
-void print_list(linked_list_t *lt)
+void print_list(linked_list_t *lt, int is_flag_a)
 {
     if (is_empty_list(lt))
         return;
     while (!is_empty_list(lt->next)) {
         if (lt->data->d_name[0] != '.')
+            my_printf("%s  ", lt->data->d_name);
+        if ((lt->data->d_name[0] == '.') && (is_flag_a > 0))
             my_printf("%s  ", lt->data->d_name);
         lt = lt->next;
     }
@@ -24,7 +26,7 @@ void print_list(linked_list_t *lt)
 
 int sorting_loop(int *swapped, linked_list_t *current)
 {
-    struct dirent *temp_data = current->data;
+    my_info_t *temp_data = current->data;
 
     if (my_strcmp(current->data->d_name, current->next->data->d_name) > 0) {
         temp_data = current->data;
