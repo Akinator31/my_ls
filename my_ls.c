@@ -58,13 +58,17 @@ int compute_args(int ac, char **av, int *flags)
 {
     int multiple_files = 0;
 
-    if (fetch_dirs_and_files(ac, av) > 1)
+    if (fetch_dirs_and_files(ac, av) > 2)
         multiple_files = 1;
     for (int i = 1; i < ac; i++) {
-        if ((av[i][0] != '-') && (multiple_files == 0))
+        if ((av[i][0] != '-') && (multiple_files == 0)) {
             load_dir(av[i], flags, av);
-        if ((av[i][0] != '-') && (multiple_files == 1))
-            load_multiple_dir(av[i], flags, av);
+        }
+        if ((av[i][0] != '-') && (multiple_files == 1)) {
+            load_multiple_dir(av[i], flags, av, i);
+        }
+        if ((av[i][0] != '-') && (multiple_files == 1) && (i < (ac - 1)))
+            my_printf("\n");
     }
 }
 

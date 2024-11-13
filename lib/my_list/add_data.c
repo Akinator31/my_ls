@@ -17,7 +17,6 @@ linked_list_t *push_back_list(linked_list_t *lt, struct dirent *data)
     my_info_t *info = malloc(sizeof(*info));
 
     info->d_name = my_strdup(data->d_name);
-
     new_element = malloc(sizeof(*new_element));
     new_element->data = info;
     new_element->next = NULL;
@@ -35,7 +34,6 @@ linked_list_t *push_front_list(linked_list_t *lt, struct dirent *data)
     my_info_t *info = malloc(sizeof(*info));
 
     info->d_name = my_strdup(data->d_name);
-
     new_element = malloc(sizeof(*new_element));
     new_element->data = info;
     new_element->next = NULL;

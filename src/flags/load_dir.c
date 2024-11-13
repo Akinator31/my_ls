@@ -43,12 +43,12 @@ int load_dir(char *filepath, int *flags, char **av)
         dir_info = readdir(current);
     }
     dir_list = sort_list(dir_list);
-    print_list_for_one_dir(dir_list, flags[0]);
+    print_list_for_one_dir(dir_list, flags[0], av);
     dir_list = clear_list(dir_list);
     closedir(current);
 }
 
-int load_multiple_dir(char *filepath, int *flags, char **av)
+int load_multiple_dir(char *filepath, int *flags, char **av, int i)
 {
     DIR *current;
     struct dirent *dir_info;
@@ -63,7 +63,7 @@ int load_multiple_dir(char *filepath, int *flags, char **av)
         dir_info = readdir(current);
     }
     dir_list = sort_list(dir_list);
-    print_list_for_multiple_dir(dir_list, flags[0]);
+    print_list_for_multiple_dir(dir_list, flags[0], av, i);
     dir_list = clear_list(dir_list);
     closedir(current);
 }

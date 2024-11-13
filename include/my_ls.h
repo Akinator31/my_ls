@@ -21,5 +21,6 @@ typedef struct dir_s {
 int is_a_flag(char actual_char, const flag_t *arr);
 int my_arrlen(const flag_t *arr);
 int load_dir(char *filepath, int *flags, char **av);
+int load_multiple_dir(char *filepath, int *flags, char **av, int i);
 
 #endif
