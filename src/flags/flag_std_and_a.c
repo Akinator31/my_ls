@@ -15,6 +15,10 @@
 #include <sys/stat.h>
 #include <stdio.h>
 #include <errno.h>
+#include <fcntl.h>
+#include <pwd.h>
+#include <grp.h>
+#include <time.h>
 #include "../../include/my_printf.h"
 #include "../../include/my_lib.h"
 #include "../../include/my_ls.h"

@@ -59,6 +59,7 @@ int flag_hashtag_finder(const char *format, int *index);
 int flag_zero_finder(const char *format, int *index);
 int flag_minus_finder(const char *format, int *index);
 int my_get_id_of_specifier(char specifier);
+char **my_str_to_word_array(char const *str);
 void apply_plus_and_space_flags_for_int_specifier(int
     flag_space, int flag_plus, int value);
 void apply_good_space_for_int_specifier(int

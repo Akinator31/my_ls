@@ -28,7 +28,7 @@ static const flag_t flag_arr[] = {
 };
 static const char *error = "ls : option invalide\n";
 
-int fetch_dirs_and_files(int ac, char **av)
+int fetch_dir(int ac, char **av)
 {
     int result = 0;
 
@@ -54,21 +54,30 @@ int flag_finder(int *flags, char **av, int index)
     return 1;
 }
 
+void print_return_line(int ac, char **av, int i)
+{
+    if ((av[i][0] != '-') && (fetch_dir(ac, av) > 2) && (i < (ac - 1)))
+                my_printf("\n");
+}
+
 int compute_args(int ac, char **av, int *flags)
 {
-    int multiple_files = 0;
-
-    if (fetch_dirs_and_files(ac, av) > 2)
-        multiple_files = 1;
     for (int i = 1; i < ac; i++) {
-        if ((av[i][0] != '-') && (multiple_files == 0)) {
+        if ((av[i][0] != '-') && flags[1]) {
+            load_dir_full_info(av[i], av, flags);
+            print_return_line(ac, av, i);
+            continue;
+        }
+        if ((av[i][0] != '-') && !(fetch_dir(ac, av) > 2)) {
             load_dir(av[i], flags, av);
+            print_return_line(ac, av, i);
+            continue;
         }
-        if ((av[i][0] != '-') && (multiple_files == 1)) {
+        if ((av[i][0] != '-') && (fetch_dir(ac, av) > 2)) {
             load_multiple_dir(av[i], flags, av, i);
+            print_return_line(ac, av, i);
+            continue;
         }
-        if ((av[i][0] != '-') && (multiple_files == 1) && (i < (ac - 1)))
-            my_printf("\n");
     }
 }
 
@@ -87,9 +96,9 @@ int main(int ac, char **av)
         write(2, error, my_strlen(error));
         return 84;
     }
-    if (ac < 2) {
-        load_dir(".", flags, av);
-        return 0;
-    }
+    if (ac < 2)
+        return load_dir(".", flags, av);
+    if ((ac < 3) && (flags[1]))
+        return load_dir_full_info(".", av, flags);
     compute_args(ac, av, flags);
 }

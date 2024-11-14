@@ -41,5 +41,6 @@ char *my_strncat(char *dest, char const *src, int nb);
 char **my_str_to_word_array(char const *str);
 struct info_param *my_params_to_array(int ac, char **av);
 char *my_strdup(char const *src);
+int my_get_nb_length(int nb);
 
 #endif

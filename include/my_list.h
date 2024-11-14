@@ -22,6 +22,7 @@ linked_list_t *new_list(void);
 int is_empty_list(linked_list_t *lt);
 int list_length(linked_list_t *lt);
 linked_list_t *push_back_list(linked_list_t *lt, struct dirent *data);
+linked_list_t *push_back_list_full(linked_list_t *lt, struct dirent *data);
 linked_list_t *push_front_list(linked_list_t *lt, struct dirent *data);
 linked_list_t *pop_back_list(linked_list_t *lt);
 linked_list_t *pop_front_list(linked_list_t *lt);

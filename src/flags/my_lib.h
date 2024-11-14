@@ -43,6 +43,5 @@ struct info_param *my_params_to_array(int ac, char **av);
 char *my_strdup(char const *src);
 int my_printf(const char *restrict format, ...);
 int my_get_nb_length(int nb);
-char *my_strdowncase(char *str);
 
 #endif
