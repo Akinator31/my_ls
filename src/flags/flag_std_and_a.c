@@ -43,7 +43,7 @@ int load_dir(char *filepath, int *flags, char **av)
     handle_open_errors(current);
     dir_info = readdir(current);
     while (dir_info) {
-        dir_list = push_back_list(dir_list, dir_info);
+        dir_list = push_back_list(dir_list, dir_info, filepath);
         dir_info = readdir(current);
     }
     dir_list = sort_list(dir_list);
@@ -63,7 +63,7 @@ int load_multiple_dir(char *filepath, int *flags, char **av, int i)
     handle_open_errors(current);
     dir_info = readdir(current);
     while (dir_info) {
-        dir_list = push_back_list(dir_list, dir_info);
+        dir_list = push_back_list(dir_list, dir_info, filepath);
         dir_info = readdir(current);
     }
     dir_list = sort_list(dir_list);

@@ -18,7 +18,7 @@ void print_list_for_one_dir(linked_list_t *lt, int is_flag_a, char **av)
         if (lt->data->d_name[0] != '.') {
             my_printf("%s  ", lt->data->d_name);
         }
-        if ((lt->data->d_name[0] == '.') && (is_flag_a > 10)) {
+        if ((lt->data->d_name[0] == '.') && is_flag_a) {
             my_printf("%s  ", lt->data->d_name);
         }
         lt = lt->next;
@@ -26,7 +26,7 @@ void print_list_for_one_dir(linked_list_t *lt, int is_flag_a, char **av)
     if (lt->data->d_name[0] != '.') {
         my_printf("%s\n", lt->data->d_name);
     }
-    if ((lt->data->d_name[0] == '.') && (is_flag_a > 10)) {
+    if ((lt->data->d_name[0] == '.') && is_flag_a) {
         my_printf("%s\n", lt->data->d_name);
     }
 }
@@ -36,18 +36,35 @@ void print_list_for_multiple_dir(linked_list_t *lt,
 {
     if (is_empty_list(lt))
         return;
-    my_printf("%s:\n", av[i]);
+    while (!is_empty_list(lt->next)) {
+        if (lt->data->d_name[0] != '.')
+            my_printf("%s:\n%s  ", lt->data->pathname, lt->data->d_name);
+        if ((lt->data->d_name[0] == '.') && is_flag_a)
+            my_printf("%s:\n%s  ", lt->data->pathname, lt->data->d_name);
+        lt = lt->next;
+    }
+    if (lt->data->d_name[0] != '.')
+        my_printf("%s:\n%s\n", lt->data->pathname, lt->data->d_name);
+    if ((lt->data->d_name[0] == '.') && is_flag_a)
+        my_printf("%s:\n%s\n", lt->data->pathname, lt->data->d_name);
+}
+
+void print_list_for_l_flag(linked_list_t *lt,
+    int is_flag_a, char **av, int i)
+{
+    if (is_empty_list(lt))
+        return;
     while (!is_empty_list(lt->next)) {
         if (lt->data->d_name[0] != '.')
             my_printf("%s  ", lt->data->d_name);
-        if ((lt->data->d_name[0] == '.') && (is_flag_a > 0))
+        if ((lt->data->d_name[0] == '.') && is_flag_a)
             my_printf("%s  ", lt->data->d_name);
         lt = lt->next;
     }
     if (lt->data->d_name[0] != '.') {
         my_printf("%s\n", lt->data->d_name);
     }
-    if ((lt->data->d_name[0] == '.') && (is_flag_a > 10)) {
+    if ((lt->data->d_name[0] == '.') && is_flag_a) {
         my_printf("%s\n", lt->data->d_name);
     }
 }

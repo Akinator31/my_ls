@@ -7,6 +7,8 @@
 
 #ifndef MY_LS_H
     #define MY_LS_H
+    #include <dirent.h>
+    #include "my_list.h"
 
 typedef struct flag {
     char flag_char;
@@ -22,6 +24,11 @@ int is_a_flag(char actual_char, const flag_t *arr);
 int my_arrlen(const flag_t *arr);
 int load_dir(char *filepath, int *flags, char **av);
 int load_multiple_dir(char *filepath, int *flags, char **av, int i);
-int load_dir_full_info(char *filepath, char **av, int *flags);
+int load_dir_full_info(char *filepath, char **av, int ac);
+void handle_open_errors(DIR *current);
+void print_info(linked_list_t *lt, int size_max, int nlink);
+int print_dir_name(char *name);
+int fetch_dir(int ac, char **av);
+char *get_filepath(char *filepath, char *name);
 
 #endif

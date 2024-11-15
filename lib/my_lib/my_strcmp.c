@@ -5,6 +5,7 @@
 ** task06
 */
 
+#include <stdlib.h>
 #include "my.h"
 
 char is_alpha(char act_char)
@@ -14,14 +15,23 @@ char is_alpha(char act_char)
     return act_char;
 }
 
-int my_strcmp(char const *s1, char const *s2)
+int my_strcmp(char *s1, char *s2)
 {
     int i = 0;
+    int result = 0;
+    char *test1 = my_strlowcase(s1);
+    char *test2 = my_strlowcase(s2);
 
-    for (int i = 0; (s1[i] != '\0') || (s2[i] != '\0'); i++) {
-        if (is_alpha(s1[i]) != is_alpha(s2[i])) {
-            return s1[i] - s2[i];
+    for (int i = 0; (test1[i] != '\0') || (test2[i] != '\0'); i++) {
+        if (test1[i] != test2[i]) {
+            result = test1[i] - test2[i];
+            free(test1);
+            free(test2);
+            return result;
         }
     }
-    return s1[i] != s2[i];
+    result = test1[i] != test2[i];
+    free(test1);
+    free(test2);
+    return result;
 }

@@ -15,33 +15,7 @@
 #include <time.h>
 #include "../../include/my_ls.h"
 #include "../../include/my_lib.h"
-
-static void print_file_type(mode_t mode)
-{
-    if ((mode & 0100000) == (0100000))
-        my_printf("-");
-    if ((mode & 0040000) == (0040000))
-        my_printf("d");
-    if ((mode & 0120000) == (0120000))
-        my_printf("l");
-    if ((mode & 0060000) == (0060000))
-        my_printf("b");
-    if ((mode & 0020000) == (0020000))
-        my_printf("b");
-}
-
-static void print_permissions(mode_t mode)
-{
-    my_printf("%c", (mode & 00400) == (00400) ? 'r' : '-');
-    my_printf("%c", (mode & 00200) == (00200) ? 'w' : '-');
-    my_printf("%c", (mode & 00100) == (00100) ? 'x' : '-');
-    my_printf("%c", (mode & 00040) == (00040) ? 'r' : '-');
-    my_printf("%c", (mode & 00020) == (00020) ? 'w' : '-');
-    my_printf("%c", (mode & 00010) == (00010) ? 'x' : '-');
-    my_printf("%c", (mode & 00004) == (00004) ? 'r' : '-');
-    my_printf("%c", (mode & 00002) == (00002) ? 'w' : '-');
-    my_printf("%c", (mode & 00001) == (00001) ? 'x' : '-');
-}
+#include "../../include/my_list.h"
 
 static int get_biggest_file(char *filepath)
 {
@@ -61,77 +35,93 @@ static int get_biggest_file(char *filepath)
     return size;
 }
 
-static void get_total(char *filepath)
+static int get_biggest_link_nb(char *filepath)
 {
-    DIR *current = opendir(filepath);
+    DIR *current = opendir(".");
     struct dirent *dir_info = readdir(current);
     struct stat info;
-    int size = 0;
+    int nlink = 0;
 
     while (dir_info) {
         stat(dir_info->d_name, &info);
+        if ((dir_info->d_name[0] != '.') && (info.st_size > nlink)) {
+            nlink = info.st_nlink;
+        }
+        dir_info = readdir(current);
+    }
+    closedir(current);
+    return nlink;
+}
+
+char *get_filepath(char *filepath, char *name)
+{
+    char *str = malloc(sizeof(char) * 513);
+
+    str[512] = '\0';
+    if (filepath[0] == '.') {
+        free(str);
+        return name;
+    }
+    for (int i = 0; i < 512; i++) {
+        str[i] = '\0';
+    }
+    my_strcat(str, filepath);
+    my_strcat(str, "/");
+    my_strcat(str, name);
+    return str;
+}
+
+void fill_stat(char *filepath, char *name, struct stat *info)
+{
+    char *str = get_filepath(filepath, name);
+
+    stat(str, info);
+    if (my_strcmp(str, name) != 0)
+        free(str);
+}
+
+static int get_total(char *filepath, int ac, char **av)
+{
+    DIR *current = opendir(filepath);
+    struct dirent *dir_info;
+    struct stat info;
+    int size = 0;
+
+    handle_open_errors(current);
+    dir_info = readdir(current);
+    while (dir_info) {
+        fill_stat(filepath, dir_info->d_name, &info);
         if (dir_info->d_name[0] != '.') {
             size += info.st_blocks;
         }
         dir_info = readdir(current);
     }
     closedir(current);
+    if (fetch_dir(ac, av) > 2)
+        my_printf("%s:\n", filepath);
     my_printf("total %d\n", size / 2);
+    return 0;
 }
 
-void print_space(int size_max, int size)
+int load_dir_full_info(char *filepath, char **av, int ac)
 {
-    int nb_len = my_get_nb_length(size_max) - my_get_nb_length(size);
-
-    for (int i = 0; i < nb_len; i++) {
-        my_printf(" ");
-    }
-}
-
-void print_timestamp(time_t date)
-{
-    char *timestamp = ctime(&date);
-    char **separate_date = my_str_to_word_array(timestamp);
-
-    my_printf("%s %s %s:%s", separate_date[1],
-        separate_date[2], separate_date[3], separate_date[4]);
-    for (int i = 0; separate_date[i] != NULL; i++) {
-        free(separate_date[i]);
-    }
-    free(separate_date);
-}
-
-void print_info(struct stat *info, int size_max)
-{
-    print_file_type(info->st_mode);
-    print_permissions(info->st_mode);
-    my_printf(" %d ", info->st_nlink);
-    my_printf("%s %s ", getpwuid(info->st_uid)->pw_name,
-        getgrgid(info->st_gid)->gr_name);
-    print_space(size_max, info->st_size);
-    my_printf("%d ", info->st_size);
-    print_timestamp(info->st_atime);
-}
-
-int load_dir_full_info(char *filepath, char **av, int *flags)
-{
+    int total = get_total(filepath, ac, av);
     DIR *current = opendir(filepath);
-    struct dirent *dir_info;
+    linked_list_t *list = new_list();
+    struct dirent *dir_info = readdir(current);
     struct stat info;
-    dir_t *dir_arr;
-    int biggest_file_size = 0;
+    int biggest_file_size = get_biggest_file(filepath);
+    int nlink_max = get_biggest_link_nb(filepath);
 
-    get_total(filepath);
-    biggest_file_size = get_biggest_file(filepath);
-    dir_info = readdir(current);
     while (dir_info) {
         if (dir_info->d_name[0] != '.') {
-            stat(dir_info->d_name, &info);
-            print_info(&info, biggest_file_size);
-            my_printf(" %s", dir_info->d_name);
-            my_printf("\n");
+            fill_stat(filepath, dir_info->d_name, &info);
+            list = push_back_list_full_info(list, &info, dir_info);
         }
         dir_info = readdir(current);
     }
+    list = sort_list(list);
+    print_info(list, biggest_file_size, nlink_max);
+    list = clear_list(list);
     closedir(current);
 }

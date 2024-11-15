@@ -10,6 +10,7 @@ SRC = 	my_ls.c \
 		src/flags/flag_l.c \
 		src/utils/my_is_a_flag.c \
 		src/utils/my_arrlen.c \
+		src/utils/print_l_flag.c \
 
 LINKED_LIST_LIB =	lib/my_list/add_data.c \
 					lib/my_list/info_list.c \

@@ -64,7 +64,7 @@ int compute_args(int ac, char **av, int *flags)
 {
     for (int i = 1; i < ac; i++) {
         if ((av[i][0] != '-') && flags[1]) {
-            load_dir_full_info(av[i], av, flags);
+            load_dir_full_info(av[i], av, ac);
             print_return_line(ac, av, i);
             continue;
         }
@@ -99,6 +99,6 @@ int main(int ac, char **av)
     if (ac < 2)
         return load_dir(".", flags, av);
     if ((ac < 3) && (flags[1]))
-        return load_dir_full_info(".", av, flags);
+        return load_dir_full_info(".", av, ac);
     compute_args(ac, av, flags);
 }

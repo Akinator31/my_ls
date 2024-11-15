@@ -5,13 +5,16 @@
 ** task09
 */
 
+#include "../../include/my_lib.h"
+
 char *my_strlowcase(char *str)
 {
     int i;
+    char *temp = my_strdup(str);
 
-    for (i = 0; str[i] >= '\0'; i++) {
-        if ((str[i] >= 65) && (str[i] <= 90))
-            str[i] += 32;
+    for (i = 0; temp[i] != '\0'; i++) {
+        if ((temp[i] >= 65) && (temp[i] <= 90))
+            temp[i] += 32;
     }
-    return str;
+    return temp;
 }

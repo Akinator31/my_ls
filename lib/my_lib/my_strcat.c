@@ -7,5 +7,13 @@
 
 char *my_strcat(char *dest, char const *src)
 {
-    return 0;
+    int i = 0;
+
+    while (dest[i] != '\0')
+        i++;
+    for (int e = 0; src[e] != '\0'; e++) {
+        dest[i] = src[e];
+        i++;
+    }
+    return dest;
 }
